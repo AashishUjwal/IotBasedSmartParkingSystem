@@ -1,0 +1,40 @@
+#include <ESP8266WiFi.h>
+#include <Servo.h>
+
+// Define pins
+const int entryIRSensorPin = D1;  // IR sensor input pin (D1 = GPIO5)
+const int entryServoPin = D7;     // Servo motor signal pin (D7 = GPIO13)
+
+// Create Servo object
+Servo entryServo;
+
+void setup() {
+  // Initialize serial communication with baud rate 9600
+  Serial.begin(9600);
+  
+  // Set the IR sensor pin as input with internal pull-up resistor
+  pinMode(entryIRSensorPin, INPUT_PULLUP);
+  
+  // Attach the servo to the defined pin
+  entryServo.attach(entryServoPin);
+
+  // Move the barrier to the closed position initially
+  entryServo.write(0); // 0 degrees - closed
+  delay(500);  // Wait for servo to move to the initial position
+}
+
+void loop() {
+  // Read the IR sensor's state
+  int sensorValue = digitalRead(entryIRSensorPin);
+
+  // If the IR sensor detects a car (LOW state means detected)
+  if (sensorValue == LOW) {
+    entryServo.write(90); // Move the barrier to 90 degrees (open)
+    delay(3000); // Wait for 3 seconds (adjust as needed for car passing time)
+
+    // Close the barrier after car passes
+    entryServo.write(0); // Move the barrier to 0 degrees (closed)
+  }
+
+  delay(100); // Small delay to prevent continuous checking at full speed
+}

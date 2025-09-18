@@ -1,0 +1,105 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+// Wi-Fi credentials
+const char* ssid = "YUT";
+const char* password = "654321RR";
+
+// Set up the IR sensor pins for four slots (D3 to D6)
+const int irSensorPins[] = {D3, D4, D5, D6};
+bool slotOccupied[4];  // Array to store slot statuses (4 slots)
+
+// Create an instance of the web server
+ESP8266WebServer server(80);  // HTTP server on port 80
+
+void setup() {
+  // Start Serial communication for debugging
+  Serial.begin(9600);
+  
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  Serial.println();
+  Serial.print("Connecting to WiFi");
+
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  // Once connected, print the IP address
+  Serial.println();
+  Serial.print("Connected to WiFi, IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Initialize the IR sensor pins as inputs with internal pull-up
+  for (int i = 0; i < 4; i++) {
+    pinMode(irSensorPins[i], INPUT_PULLUP);
+  }
+
+  // Define the root route to display the slot status
+  server.on("/", HTTP_GET, handleRoot);
+  
+  // Define the route to get JSON data of slot statuses
+  server.on("/status", HTTP_GET, handleStatus);
+
+  // Start the server
+  server.begin();
+  Serial.println("HTTP server started");
+}
+
+void loop() {
+  // Continuously check the IR sensor status for all slots
+  for (int i = 0; i < 4; i++) {
+    slotOccupied[i] = digitalRead(irSensorPins[i]) == LOW;  // Assuming LOW means occupied
+  }
+
+  // Handle any incoming HTTP requests
+  server.handleClient();
+}
+
+// Handle the root endpoint by serving the HTML page
+void handleRoot() {
+  String html = "<html><body><h1>Slot Status</h1>";
+
+  // Add JavaScript to periodically update slot statuses from the server
+  html += "<script>";
+  html += "function updateStatus() {";
+  html += "  fetch('/status')"; // Request data from /status endpoint
+  html += "    .then(response => response.json())";
+  html += "    .then(data => {";
+  html += "      document.getElementById('slot1').innerText = 'Slot 1: ' + (data.slot1 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot2').innerText = 'Slot 2: ' + (data.slot2 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot3').innerText = 'Slot 3: ' + (data.slot3 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot4').innerText = 'Slot 4: ' + (data.slot4 ? 'Occupied' : 'Available');";
+  html += "    });";
+  html += "}";
+  html += "setInterval(updateStatus, 500);"; // Update every 500 milliseconds (or as needed)
+  html += "updateStatus();";  // Call immediately to load status
+  html += "</script>";
+
+  // Add slots to display
+  html += "<p id='slot1'>Slot 1: Loading...</p>";
+  html += "<p id='slot2'>Slot 2: Loading...</p>";
+  html += "<p id='slot3'>Slot 3: Loading...</p>";
+  html += "<p id='slot4'>Slot 4: Loading...</p>";
+
+  html += "</body></html>";
+  
+  // Send the HTML response
+  server.send(200, "text/html", html);
+}
+
+// Handle the /status endpoint to send JSON data with slot statuses
+void handleStatus() {
+  // Create a JSON object for the slot statuses
+  String json = "{";
+  json += "\"slot1\":" + String(slotOccupied[0]) + ",";
+  json += "\"slot2\":" + String(slotOccupied[1]) + ",";
+  json += "\"slot3\":" + String(slotOccupied[2]) + ",";
+  json += "\"slot4\":" + String(slotOccupied[3]);
+  json += "}";
+
+  // Send the JSON response
+  server.send(200, "application/json", json);
+}

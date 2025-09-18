@@ -1,0 +1,40 @@
+#include <ESP8266WiFi.h>
+#include <Servo.h>
+
+const int entryIRSensorPin = D1;
+const int exitIRSensorPin = D2;
+const int entryServoPin = D7;
+const int exitServoPin = D8;
+
+Servo entryServo;
+Servo exitServo;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(entryIRSensorPin, INPUT_PULLUP);
+  pinMode(exitIRSensorPin, INPUT_PULLUP);
+  entryServo.attach(entryServoPin);
+  exitServo.attach(exitServoPin);
+  entryServo.write(90);
+  exitServo.write(90);
+  delay(500);
+}
+
+void loop() {
+  int entrySensorValue = digitalRead(entryIRSensorPin);
+  int exitSensorValue = digitalRead(exitIRSensorPin);
+
+  if (entrySensorValue == LOW) {
+    entryServo.write(0);
+    delay(3000);
+    entryServo.write(90);
+  }
+
+  if (exitSensorValue == LOW) {
+    exitServo.write(0);
+    delay(3000);
+    exitServo.write(90);
+  }
+
+  delay(100);
+}

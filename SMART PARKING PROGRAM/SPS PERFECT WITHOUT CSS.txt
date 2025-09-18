@@ -1,0 +1,110 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <Servo.h>
+
+const char* ssid = "YUT";
+const char* password = "654321RR";
+
+const int irSensorPins[] = {D3, D4, D5, D6};
+bool slotOccupied[4];
+
+const int entryIRSensorPin = D1;
+const int exitIRSensorPin = D2;
+const int entryServoPin = D7;
+const int exitServoPin = D8;
+
+Servo entryServo;
+Servo exitServo;
+
+ESP8266WebServer server(80);
+
+void setup() {
+  Serial.begin(9600);
+
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+  Serial.println(WiFi.localIP());
+
+  for (int i = 0; i < 4; i++) {
+    pinMode(irSensorPins[i], INPUT_PULLUP);
+  }
+
+  pinMode(entryIRSensorPin, INPUT_PULLUP);
+  pinMode(exitIRSensorPin, INPUT_PULLUP);
+
+  entryServo.attach(entryServoPin);
+  exitServo.attach(exitServoPin);
+  entryServo.write(90);
+  exitServo.write(90);
+
+  server.on("/", HTTP_GET, handleRoot);
+  server.on("/status", HTTP_GET, handleStatus);
+
+  server.begin();
+}
+
+void loop() {
+  for (int i = 0; i < 4; i++) {
+    slotOccupied[i] = digitalRead(irSensorPins[i]) == LOW;
+  }
+
+  int entrySensorValue = digitalRead(entryIRSensorPin);
+  if (entrySensorValue == LOW) {
+    entryServo.write(0);
+    delay(1000);
+    entryServo.write(90);
+  }
+
+  int exitSensorValue = digitalRead(exitIRSensorPin);
+  if (exitSensorValue == LOW) {
+    exitServo.write(0);
+    delay(1000);
+    exitServo.write(90);
+  }
+
+  server.handleClient();
+}
+
+void handleRoot() {
+  String html = "<html><body><h1>Smart Parking System</h1>";
+  html += "<script>";
+  html += "function updateStatus() {";
+  html += "  fetch('/status')"; 
+  html += "    .then(response => response.json())";
+  html += "    .then(data => {";
+  html += "      document.getElementById('slot1').innerText = 'Slot 1: ' + (data.slot1 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot2').innerText = 'Slot 2: ' + (data.slot2 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot3').innerText = 'Slot 3: ' + (data.slot3 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('slot4').innerText = 'Slot 4: ' + (data.slot4 ? 'Occupied' : 'Available');";
+  html += "      document.getElementById('entryGate').innerText = 'Entry Gate: ' + (data.entryGate ? 'Open' : 'Closed');";
+  html += "      document.getElementById('exitGate').innerText = 'Exit Gate: ' + (data.exitGate ? 'Open' : 'Closed');";
+  html += "    });";
+  html += "}";  
+  html += "setInterval(updateStatus, 1000);"; 
+  html += "updateStatus();"; 
+  html += "</script>";
+  html += "<p id='slot1'>Slot 1: Loading...</p>";
+  html += "<p id='slot2'>Slot 2: Loading...</p>";
+  html += "<p id='slot3'>Slot 3: Loading...</p>";
+  html += "<p id='slot4'>Slot 4: Loading...</p>";
+  html += "<p id='entryGate'>Entry Gate: Loading...</p>";
+  html += "<p id='exitGate'>Exit Gate: Loading...</p>";
+  html += "</body></html>";
+  
+  server.send(200, "text/html", html);
+}
+
+void handleStatus() {
+  String json = "{";
+  json += "\"slot1\":" + String(slotOccupied[0]) + ",";
+  json += "\"slot2\":" + String(slotOccupied[1]) + ",";
+  json += "\"slot3\":" + String(slotOccupied[2]) + ",";
+  json += "\"slot4\":" + String(slotOccupied[3]) + ",";
+  json += "\"entryGate\":" + String(digitalRead(entryIRSensorPin) == LOW) + ",";
+  json += "\"exitGate\":" + String(digitalRead(exitIRSensorPin) == LOW);  
+  json += "}";
+
+  server.send(200, "application/json", json);
+}

@@ -1,0 +1,66 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+
+// Wi-Fi credentials
+const char* ssid = "YUT";
+const char* password = "654321RR";
+
+// Set up the IR sensor pin (D3)
+const int irSensorPin = D3;
+bool slotOccupied = false;  // Variable to store slot status
+
+// Create an instance of the web server
+ESP8266WebServer server(80);  // HTTP server on port 80
+
+void setup() {
+  // Start Serial communication for debugging
+  Serial.begin(9600);
+  
+  // Connect to Wi-Fi
+  WiFi.begin(ssid, password);
+  Serial.println();
+  Serial.print("Connecting to WiFi");
+
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  // Once connected, print the IP address
+  Serial.println();
+  Serial.print("Connected to WiFi, IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Initialize the IR sensor pin as an input with internal pull-up
+  pinMode(irSensorPin, INPUT_PULLUP);
+
+  // Define the root route to display the slot status
+  server.on("/", HTTP_GET, handleRoot);
+
+  // Start the server
+  server.begin();
+  Serial.println("HTTP server started");
+}
+
+void loop() {
+  // Continuously check the IR sensor status
+  slotOccupied = digitalRead(irSensorPin) == LOW;  // Assuming LOW means occupied, change as needed
+  
+  // Handle any incoming HTTP requests
+  server.handleClient();
+}
+
+// Handle the root endpoint by serving the slot status
+void handleRoot() {
+  // Determine the slot status
+  String status = slotOccupied ? "Occupied" : "Available";
+  
+  // HTML page to display slot status with auto-refresh every 2 seconds
+  String html = "<html><body><h1>Slot 1: " + status + "</h1>";
+  html += "<meta http-equiv='refresh' content='1'>"; // Auto-refresh every 2 seconds
+  html += "</body></html>";
+  
+  // Send the HTML response
+  server.send(200, "text/html", html);
+}
