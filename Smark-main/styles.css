@@ -1,0 +1,825 @@
+ /* Modern Gradient Background and Base Styles */
+ body {
+     font-family: 'Poppins', sans-serif;
+     background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+     color: #fff;
+     overflow-x: hidden;
+ }
+
+ /* Neon Glow Navbar */
+ /* Navbar container */
+ .navbar {
+     background: rgba(0, 0, 0, 0.9);
+     backdrop-filter: blur(10px);
+     border-bottom: 2px solid #00ff88;
+     box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 10px;
+ }
+
+ /* Navbar logo */
+ .navbar-logo a {
+     color: #00ff88;
+     text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+     text-decoration: none;
+     /* Remove underline */
+     transition: all 0.4s ease;
+     /* Add transition */
+ }
+
+ /* Navbar items container */
+ .nav-items {
+     list-style: none;
+     /* Remove bullet points */
+     display: flex;
+     /* Align items horizontally */
+     gap: 15px;
+     /* Space between items */
+ }
+
+ /* Navbar items */
+ .nav-items a {
+     background: linear-gradient(90deg, transparent 50%, #00ff88 50%);
+     background-size: 200% 100%;
+     transition: all 0.4s ease;
+     padding: 5px 10px;
+     /* Add padding */
+     text-decoration: none;
+     /* Remove underline */
+     color: #fff;
+     /* Add text color */
+     border-radius: 5px;
+ }
+
+ /* Hover effect for logo and nav items */
+ .nav-items a:hover,
+ .navbar-logo a:hover {
+     background-position: -100% 0;
+     color: #000;
+ }
+
+ /* Gradient Vehicle Cards */
+ .vehicle-options {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+     gap: 25px;
+     padding: 20px;
+     cursor: pointer;
+ }
+
+ .vehicle-card {
+     background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+     border-radius: 15px;
+     padding: 25px;
+     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+ }
+
+
+ .vehicle-card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
+ }
+
+ /* Holographic Parking Slots */
+ .slot {
+     background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+     border: 2px solid;
+     border-image: linear-gradient(45deg, #00ff88, #00b4d8) 1;
+     position: relative;
+     overflow: hidden;
+     background: rgba(0, 0, 0, 0.6);
+     border-radius: 10px;
+     padding: 20px;
+     width: 220px;
+     margin-bottom: 20px;
+     text-align: center;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+     transition: transform 0.3s ease, background-color 0.3s ease;
+
+ }
+
+ /* Parent container for parking slots */
+ .parking-slots {
+     margin-top: 60px;
+     display: flex;
+     /* Use Flexbox for horizontal alignment */
+     justify-content: flex-start;
+     /* Align items to the start (left) */
+     gap: 20px;
+     /* Add some space between slots */
+     flex-wrap: wrap;
+     /* Allow wrapping if necessary */
+
+ }
+
+ /* Each individual slot */
+ /* Parent container for parking slots */
+ .parking-slots {
+     margin-top: 60px;
+     display: flex;
+     /* Use Flexbox for horizontal alignment */
+     justify-content: space-between;
+     /* Distribute the slots evenly, leaving space between them */
+     gap: 20px;
+     /* Space between each slot */
+     flex-wrap: wrap;
+     /* Allow wrapping if necessary */
+ }
+
+ /* Each individual slot */
+ .slot {
+     position: relative;
+     background: rgba(0, 0, 0, 0.6);
+     border-radius: 10px;
+     padding: 20px;
+     width: 220px;
+     margin: 10px;
+     text-align: center;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+ }
+
+ /* KEY FIX: Make pseudo-element non-interactive */
+ .slot::before {
+     content: '';
+     position: absolute;
+     top: -50%;
+     left: -50%;
+     width: 200%;
+     height: 200%;
+     background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+     transform: rotate(45deg);
+     animation: slotGlow 3s linear infinite;
+     pointer-events: none;
+     /* Allows clicks through */
+     z-index: -1;
+     /* Keep behind content */
+ }
+
+ /* Ensure input fields are interactive */
+ .customer-name,
+ .parking-time,
+ .customer-mobile {
+     position: relative;
+     /* Bring above pseudo-element */
+     z-index: 1;
+     /* Explicit stacking context */
+     width: 80%;
+     padding: 10px;
+     margin: 10px 0;
+     border-radius: 20px;
+     border: 1px solid #ffb400;
+     font-size: 1em;
+     background-color: rgba(255, 255, 255, 0.1);
+     color: #fff;
+     text-align: center;
+     transition: all 0.3s ease;
+ }
+
+ /* Adjust focus style */
+ .customer-name:focus,
+ .parking-time:focus {
+     border-color: #ffb400;
+     background-color: rgba(255, 255, 255, 0.3);
+     outline: none;
+ }
+
+
+ .slot::before {
+     content: '';
+     position: absolute;
+     top: -50%;
+     left: -50%;
+     width: 200%;
+     height: 200%;
+     background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+     transform: rotate(45deg);
+     animation: slotGlow 3s linear infinite;
+ }
+
+ @keyframes slotGlow {
+     0% {
+         transform: rotate(45deg) translate(-50%, -50%);
+     }
+
+     100% {
+         transform: rotate(45deg) translate(50%, 50%);
+     }
+ }
+
+ /* Cyberpunk Input Fields */
+ .customer-name,
+ .parking-time,
+ .customer-mobile {
+     background: rgba(0, 0, 0, 0.3);
+     border: 1px solid #00ff88;
+     color: #00ff88;
+     transition: all 0.3s ease;
+ }
+
+ .customer-name:focus,
+ .parking-time:focus,
+ .customer-mobile:focus {
+     box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+ }
+
+ /* Neon Buttons */
+ .park-btn {
+     background: linear-gradient(90deg, #00ff88, #00b4d8);
+     color: #000;
+     font-weight: bold;
+     letter-spacing: 1px;
+     text-transform: uppercase;
+     position: relative;
+     overflow: hidden;
+ }
+
+ .park-btn::after {
+     content: '';
+     position: absolute;
+     top: -50%;
+     left: -50%;
+     width: 200%;
+     height: 200%;
+     background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+     transform: rotate(45deg);
+     animation: buttonGlow 3s linear infinite;
+ }
+
+ @keyframes buttonGlow {
+     0% {
+         transform: rotate(45deg) translate(-50%, -50%);
+     }
+
+     100% {
+         transform: rotate(45deg) translate(50%, 50%);
+     }
+ }
+
+ /* Futuristic Modals */
+ .modal-content {
+     background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+     border: 2px solid #00ff88;
+     box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+ }
+
+ .modal-content input {
+     background: rgba(0, 0, 0, 0.3);
+     border: 1px solid #00ff88;
+     color: #00ff88;
+ }
+
+ /* Holographic Footer */
+ .footer {
+     background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+     border-top: 2px solid #00ff88;
+     box-shadow: 0 -5px 15px rgba(0, 255, 136, 0.1);
+ }
+
+ .footer-section h3 {
+     color: #00ff88;
+     text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+ }
+
+ .footer-section a {
+     position: relative;
+ }
+
+ .footer-section a::after {
+     content: '';
+     position: absolute;
+     bottom: -2px;
+     left: 0;
+     width: 0;
+     height: 2px;
+     background: #00ff88;
+     transition: width 0.3s ease;
+ }
+
+ .footer-section a:hover::after {
+     width: 100%;
+ }
+
+ /* Responsive Design */
+ @media (max-width: 768px) {
+     .navbar {
+         flex-direction: column;
+         padding: 15px;
+     }
+
+     .vehicle-options {
+         grid-template-columns: 1fr;
+     }
+
+     .slot {
+         width: 90%;
+     }
+ }
+
+ /* Loading Animation */
+ @keyframes pulse {
+     0% {
+         opacity: 0.6;
+     }
+
+     50% {
+         opacity: 1;
+     }
+
+     100% {
+         opacity: 0.6;
+     }
+ }
+
+ .loading {
+     animation: pulse 1.5s infinite;
+ }
+
+ .modal {
+     display: none;
+     /* Hide modal by default */
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgb(0, 0, 0);
+     /* Black w/ opacity */
+     background-color: rgba(0, 0, 0, 0.4);
+     /* Black w/ opacity */
+     padding-top: 60px;
+ }
+
+ .modal-content {
+     background-color: #fefefe;
+     margin: 5% auto;
+     padding: 20px;
+     border: 1px solid #888;
+     width: 80%;
+ }
+
+ .close-btn {
+     color: #aaa;
+     font-size: 28px;
+     font-weight: bold;
+     position: absolute;
+     top: 5px;
+     right: 15px;
+ }
+
+ .close-btn:hover,
+ .close-btn:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
+ }
+
+ /* Style the Sign Up and Login buttons */
+ .navbar-buttons .btn {
+     background-color: #4CAF50;
+     /* Green background */
+     color: white;
+     /* White text */
+     border: none;
+     /* No border */
+     padding: 12px 20px;
+     /* Top/Bottom padding 12px, Left/Right 20px */
+     font-size: 16px;
+     /* Font size */
+     cursor: pointer;
+     /* Pointer cursor on hover */
+     border-radius: 5px;
+     /* Rounded corners */
+     transition: all 0.3s ease;
+     /* Smooth transition for hover effects */
+     margin: 5px;
+     /* Space between buttons */
+ }
+
+ /* Hover effect for buttons */
+ .navbar-buttons .btn:hover {
+     background-color: #45a049;
+     /* Darker green on hover */
+     transform: translateY(-2px);
+     /* Slight lift effect */
+ }
+
+ /* Button for "Login" with a different color */
+ .navbar-buttons .login-btn {
+     background-color: #007BFF;
+     /* Blue background */
+ }
+
+ .navbar-buttons .login-btn:hover {
+     background-color: #0056b3;
+     /* Darker blue on hover */
+ }
+
+ /* Button for "Sign Up" with a different color */
+ .navbar-buttons .signup-btn {
+     background-color: #28a745;
+     /* Green background */
+ }
+
+ .navbar-buttons .signup-btn:hover {
+     background-color: #218838;
+     /* Darker green on hover */
+ }
+
+ /* Style for the modal buttons */
+ .modal button {
+     background-color: #007BFF;
+     /* Blue background */
+     color: white;
+     /* White text */
+     border: none;
+     /* No border */
+     padding: 12px 20px;
+     /* Top/Bottom padding 12px, Left/Right 20px */
+     font-size: 16px;
+     /* Font size */
+     cursor: pointer;
+     /* Pointer cursor on hover */
+     border-radius: 5px;
+     /* Rounded corners */
+     transition: all 0.3s ease;
+     /* Smooth transition for hover effects */
+     width: 100%;
+     /* Full-width button */
+     margin-top: 15px;
+     /* Margin top for spacing */
+ }
+
+ /* Hover effect for modal buttons */
+ .modal button:hover {
+     background-color: #0056b3;
+     /* Darker blue on hover */
+     transform: translateY(-2px);
+     /* Slight lift effect */
+ }
+
+ /* Style for the "Smark" logo */
+ .navbar-logo a {
+     font-size: 32px;
+     /* Bigger font size */
+     font-weight: bold;
+     /* Bold text */
+     color: #4CAF50;
+     /* Green color */
+     text-decoration: none;
+     /* No underline */
+     font-family: 'Arial', sans-serif;
+     /* Modern font family */
+     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+     /* Soft shadow effect */
+     transition: color 0.3s ease;
+     /* Smooth color transition */
+ }
+
+ .navbar-logo a:hover {
+     color: #45a049;
+     /* Slightly darker green on hover */
+ }
+
+ /* Modal content layout (horizontal) */
+ .modal-content {
+     display: flex;
+     /* Flexbox for horizontal layout */
+     justify-content: space-between;
+     /* Space between the elements */
+     align-items: center;
+     /* Vertically center the items */
+     background-color: #fefefe;
+     /* White background */
+     padding: 20px;
+     /* Padding inside modal */
+     border-radius: 8px;
+     /* Rounded corners */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+     /* Soft shadow */
+     width: 500px;
+     /* Fixed width for the modal */
+     max-width: 100%;
+     /* Max width should be 100% for responsiveness */
+     margin: auto;
+     /* Center modal horizontally */
+ }
+
+ /* Modal input fields */
+ .modal-content input {
+     width: 100%;
+     /* Full width of the modal content */
+     padding: 10px;
+     /* Padding inside input fields */
+     margin-bottom: 10px;
+     /* Space below each input */
+     border-radius: 5px;
+     /* Rounded input borders */
+     border: 1px solid #ccc;
+     /* Light border */
+     font-size: 16px;
+     /* Font size inside inputs */
+ }
+
+ /* Close button style */
+ .close-btn {
+     color: #aaa;
+     font-size: 28px;
+     font-weight: bold;
+     position: absolute;
+     top: 10px;
+     right: 20px;
+     cursor: pointer;
+ }
+
+ .close-btn:hover,
+ .close-btn:focus {
+     color: black;
+     text-decoration: none;
+ }
+
+ /* Modal button styling */
+ /* General Modal Styles */
+ .modal {
+     display: none;
+     /* Hidden by default */
+     position: fixed;
+     /* Stay in place */
+     z-index: 1;
+     /* Sit on top */
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.5);
+     /* Black background with transparency */
+     overflow: auto;
+     /* Enable scroll if needed */
+     padding-top: 60px;
+ }
+
+ /* Modal Content */
+ .modal-content {
+     background-color: #fff;
+     margin: 15% auto;
+     /* Centered */
+     padding: 20px;
+     border-radius: 8px;
+     width: 400px;
+     /* Fixed width */
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+     /* Soft shadow */
+     display: flex;
+     flex-direction: column;
+     /* Stack the content vertically */
+     align-items: center;
+     /* Center the content */
+     box-sizing: border-box;
+     /* Ensure padding and borders are included in width calculation */
+ }
+
+ /* Close Button (X) */
+ .close-btn {
+     color: #aaa;
+     font-size: 28px;
+     font-weight: bold;
+     position: absolute;
+     top: 10px;
+     right: 20px;
+     cursor: pointer;
+ }
+
+ .close-btn:hover,
+ .close-btn:focus {
+     color: black;
+     text-decoration: none;
+ }
+
+ /* Modal Title */
+ .modal h2 {
+     font-size: 24px;
+     margin-bottom: 20px;
+     color: #333;
+ }
+
+ /* Modal Input Fields */
+ .modal-content input {
+     width: 100%;
+     /* Full width */
+     padding: 12px;
+     margin: 10px 0;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     font-size: 16px;
+     background-color: #f9f9f9;
+     box-sizing: border-box;
+     /* Ensures padding and border are included in width calculation */
+     transition: border 0.3s ease;
+ }
+
+ .modal-content input:focus {
+     border-color: #4CAF50;
+     /* Green border on focus */
+     outline: none;
+ }
+
+ /* Modal Button */
+ .modal-content button {
+     width: 100%;
+     /* Full width */
+     padding: 12px;
+     background-color: #4CAF50;
+     /* Green background */
+     color: white;
+     font-size: 16px;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: background-color 0.3s ease;
+ }
+
+ .modal-content button:hover {
+     background-color: #45a049;
+     /* Darker green on hover */
+ }
+
+ /* Responsive Design */
+ @media (max-width: 768px) {
+     .modal-content {
+         width: 80%;
+         /* Make the modal content smaller on mobile */
+     }
+ }
+
+ /* Modal Title */
+ .modal h2 {
+     font-size: 24px;
+     margin-bottom: 20px;
+     text-align: center;
+     /* Center the text */
+     background-image: linear-gradient(45deg, #4CAF50, #ff6347);
+     /* Green to Tomato gradient */
+     -webkit-background-clip: text;
+     /* Clip the background to the text */
+     color: transparent;
+     /* Make the text color transparent to show the gradient */
+     font-weight: bold;
+ }
+
+ /* Ensure inputs are clickable and styled properly */
+ .customer-name,
+ .customer-mobile,
+ .parking-time {
+     width: 80%;
+     padding: 10px;
+     margin-bottom: 20px;
+     border-radius: 20px;
+     border: 1px solid #ffb400;
+     font-size: 1em;
+     background-color: rgba(255, 255, 255, 0.1);
+     color: #fff;
+     text-align: center;
+     transition: border-color 0.3s ease, background-color 0.3s ease;
+ }
+
+ .customer-name:focus,
+ .parking-time:focus,
+ .customer-mobile:focus {
+     border-color: #ffb400;
+     background-color: rgba(255, 255, 255, 0.3);
+     outline: none;
+ }
+
+ /* Park button styles */
+ .park-btn {
+     padding: 12px 25px;
+     background-color: #ffb400;
+     color: #000;
+     font-size: 1.2em;
+     border-radius: 30px;
+     border: none;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.3s ease;
+ }
+
+ .park-btn:hover {
+     background-color: #e68a00;
+     transform: scale(1.05);
+ }
+
+ /* General Footer Styling */
+ .footer {
+     background-color: #222;
+     /* Dark background color for the footer */
+     color: #fff;
+     /* White text color */
+     padding: 40px 20px;
+     /* Padding for the footer */
+     font-family: Arial, sans-serif;
+     font-size: 14px;
+     text-align: center;
+ }
+
+ /* Footer Content Section */
+ .footer-content {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     gap: 30px;
+     /* Space between footer sections */
+     margin-bottom: 20px;
+ }
+
+ /* Footer Sections (JioCinema, Support, etc.) */
+ .footer-section {
+     flex: 1 1 200px;
+     /* Allow each section to take equal space with a min-width */
+     min-width: 250px;
+     margin-bottom: 20px;
+ }
+
+ /* Section Titles */
+ .footer-section h3 {
+     font-size: 18px;
+     margin-bottom: 15px;
+     color: #ffb400;
+     /* Use a bright color for section headings */
+     text-transform: uppercase;
+     /* Uppercase for section titles */
+     letter-spacing: 2px;
+ }
+
+ /* Footer Links */
+ .footer-section ul {
+     list-style: none;
+     padding: 0;
+ }
+
+ .footer-section ul li {
+     margin-bottom: 10px;
+ }
+
+ .footer-section ul li a {
+     text-decoration: none;
+     color: #bbb;
+     /* Soft color for links */
+     transition: color 0.3s ease;
+ }
+
+ .footer-section ul li a:hover {
+     color: #ffb400;
+     /* Highlight links on hover with a golden color */
+ }
+
+ /* Footer Links for Social Media */
+ .footer-section.connect ul li a {
+     display: inline-block;
+     margin-right: 10px;
+ }
+
+ /* Footer App Download Section */
+ .footer-section.app ul li a {
+     display: block;
+     margin-bottom: 10px;
+     font-weight: bold;
+ }
+
+ /* Footer Copyright Information */
+ .footer-copyright {
+     background-color: #111;
+     /* Slightly darker background for copyright section */
+     color: #bbb;
+     /* Soft text color for copyright */
+     padding: 10px 0;
+     font-size: 12px;
+ }
+
+ /* Hover Effects for Social Media Links */
+ .footer-section.connect a:hover {
+     transform: scale(1.1);
+     transition: transform 0.3s ease;
+ }
+
+ /* Responsive Design */
+ @media (max-width: 768px) {
+     .footer-content {
+         flex-direction: column;
+         align-items: center;
+     }
+
+     .footer-section {
+         min-width: 100%;
+         /* Full width on smaller screens */
+         margin-bottom: 20px;
+     }
+
+     .footer-section h3 {
+         font-size: 16px;
+         /* Smaller text for headings on mobile */
+     }
+ }

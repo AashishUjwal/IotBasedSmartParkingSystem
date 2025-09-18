@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARK-Easy way to park vehicle</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/8659/8659078.png" type="image/x-icon">
+</head>
+
+<body>
+    <!--Navbar Starts-->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <a href="index.html">Smark</a>
+        </div>
+        <ul class="nav-items">
+            <li><a href="#vehicle-type">Types of Vehicles</a></li>
+            <li><a href="#slots">Parking Slots</a></li>
+            <li><a href="javascript:void(0)" onclick="showSlotStatus()">Slot Status</a></li>
+        </ul>
+        <div class="navbar-buttons">
+            <button class="btn signup-btn" onclick="showSignUpModal()">Sign Up</button>
+            <button class="btn login-btn" onclick="showLoginModal()">Login</button>
+        </div>
+    </nav>
+    <!--Navbar Ends-->
+
+    <!-- Types of Vehicles Section -->
+    <section class="vehicle-types" id="vehicle-type">
+        <h2>Choose Your Vehicle Type</h2>
+        <div class="vehicle-options">
+            <div class="vehicle-card" onclick="updateFare('Car')">
+                <img src="https://cdn.pixabay.com/photo/2013/07/12/12/45/car-146185_1280.png" alt="Car"
+                    style="width: 100px;height: 50px;">
+                <p>Car</p>
+            </div>
+            <div class="vehicle-card" onclick="updateFare('Bike')">
+                <img src="https://cdn.pixabay.com/photo/2024/07/03/19/02/motorcycle-8870723_1280.png" alt="Bike"
+                    style="width: 100px;height: 50px;">
+                <p>Bike</p>
+            </div>
+            <div class="vehicle-card" onclick="updateFare('Auto-Rikshaw')">
+                <img src="https://cdn.pixabay.com/photo/2016/03/31/21/15/rickshaw-1296278_1280.png" alt="SUV"
+                    style="width: 100px;height: 50px;">
+                <p>Auto-Rikshaw</p>
+            </div>
+            <div class="vehicle-card" onclick="updateFare('Truck')">
+                <img src="https://cdn.pixabay.com/photo/2014/04/02/10/44/truck-304383_1280.png" alt="Truck"
+                    style="width: 100px;height: 50px;">
+                <p>Truck</p>
+            </div>
+        </div>
+
+
+        <!-- Parking Slots Section -->
+        <section class="parking-slots" id="slots">
+            <div class="slot car" id="slot1">
+                <h3>Slot 1</h3>
+                <p class="fare-info">Fare: ₹<span class="slot-fare">--</span>/hour</p>
+                <input type="text" placeholder="Enter your name" class="customer-name" onfocus="hidePlaceholder(this)">
+                <input type="number" placeholder="Enter time in hours" class="parking-time" min="1">
+                <input type="text" placeholder="Enter mobile number" class="customer-mobile">
+                <button class="park-btn" onclick="parkVehicle('slot1')">Park Here</button>
+                <p class="status">Available</p>
+                <p class="countdown"></p>
+            </div>
+
+            <div class="slot bike" id="slot2">
+                <h3>Slot 2</h3>
+                <p class="fare-info">Fare: ₹<span class="slot-fare">--</span>/hour</p>
+                <input type="text" placeholder="Enter your name" class="customer-name" onfocus="hidePlaceholder(this)">
+                <input type="number" placeholder="Enter time in hours" class="parking-time" min="1">
+                <input type="text" placeholder="Enter mobile number" class="customer-mobile">
+                <button class="park-btn" onclick="parkVehicle('slot2')">Park Here</button>
+                <p class="status">Available</p>
+                <p class="countdown"></p>
+            </div>
+
+            <div class="slot Auto-Rikshaw" id="slot3">
+                <h3>Slot 3</h3>
+                <p class="fare-info">Fare: ₹<span class="slot-fare">--</span>/hour</p>
+                <input type="text" placeholder="Enter your name" class="customer-name" onfocus="hidePlaceholder(this)">
+                <input type="number" placeholder="Enter time in hours" class="parking-time" min="1">
+                <input type="text" placeholder="Enter mobile number" class="customer-mobile">
+                <button class="park-btn" onclick="parkVehicle('slot3')">Park Here</button>
+                <p class="status">Available</p>
+                <p class="countdown"></p>
+            </div>
+
+            <div class="slot truck" id="slot4">
+                <h3>Slot 4</h3>
+                <p class="fare-info">Fare: ₹<span class="slot-fare">--</span>/hour</p>
+                <input type="text" placeholder="Enter your name" class="customer-name" onfocus="hidePlaceholder(this)">
+                <input type="number" placeholder="Enter time in hours" class="parking-time" min="1">
+                <input type="text" placeholder="Enter mobile number" class="customer-mobile">
+                <button class="park-btn" onclick="parkVehicle('slot4')">Park Here</button>
+                <p class="status">Available</p>
+                <p class="countdown"></p>
+            </div>
+
+            <div class="slot car" id="slot5">
+                <h3>Slot 5</h3>
+                <p class="fare-info">Fare: ₹<span class="slot-fare">--</span>/hour</p>
+                <input type="text" placeholder="Enter your name" class="customer-name" onfocus="hidePlaceholder(this)">
+                <input type="number" placeholder="Enter time in hours" class="parking-time" min="1">
+                <input type="text" placeholder="Enter mobile number" class="customer-mobile">
+                <button class="park-btn" onclick="parkVehicle('slot5')">Park Here</button>
+                <p class="status">Available</p>
+                <p class="countdown"></p>
+            </div>
+
+            <!--Section Starts-->
+        </section>
+
+        <div id="signup-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('signup-modal')">&times;</span>
+                <div>
+                    <h2>Sign Up</h2>
+                    <input type="text" placeholder="Enter Username" id="signup-username">
+                    <input type="password" placeholder="Enter Password" id="signup-password">
+                    <input type="text" placeholder="Enter Mobile Number" id="signup-mobile">
+                    <button onclick="closeModal('signup-modal')">Sign Up</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+                <div>
+                    <h2>Login</h2>
+                    <input type="text" placeholder="Enter Username" id="login-username">
+                    <input type="password" placeholder="Enter Password" id="login-password">
+                    <button onclick="closeModal('login-modal')">Login</button>
+                </div>
+            </div>
+        </div>
+        <!--section Ends-->
+
+
+</body>
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-content">
+        <!-- shortcut Section -->
+        <div class="footer-section">
+            <h3>Samrk</h3>
+            <ul>
+                <li><a href="#">For You</a></li>
+                <li><a href="#">Types of vechiles</a></li>
+                <li><a href="#">Parking Slots</a></li>
+                <li><a href="#">Slot status</a></li>
+            </ul>
+        </div>
+
+        <!-- Support Section -->
+        <div class="footer-section support">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="#help-center">Help Center</a></li>
+                <li><a href="#terms-of-use">Terms of Use</a></li>
+                <li><a href="#privacy-policy">Privacy Policy</a></li>
+                <li><a href="#content-complaints">Complaints</a></li>
+            </ul>
+        </div>
+
+        <!-- Connect With Us Section -->
+        <div class="footer-section connect">
+            <h3>Connect With Us</h3>
+            <ul>
+                <li><a href="https://facebook.com" target="_blank">Facebook</a></li>
+                <li><a href="https://twitter.com" target="_blank">X</a></li>
+                <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+                <li><a href="https://youtube.com" target="_blank">YouTube</a></li>
+            </ul>
+        </div>
+
+        <!-- Download the App Section -->
+        <div class="footer-section app">
+            <h3>Download the App</h3>
+            <ul>
+                <li><a href="https://play.google.com" target="_blank">Google Play</a></li>
+                <li><a href="https://www.apple.com/app-store/" target="_blank">App Store</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Copyright Information -->
+    <div class="footer-copyright">
+        <p>&copy; 2025 Private Limited. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+
+</html>
